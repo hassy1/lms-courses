@@ -76,7 +76,24 @@
     </section>
   </main>
 
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+  <!-- ============================================================
+       Load data.js and script.js with a cache-busting query string
+       so returning visitors on the same browser always get the
+       latest data.js after you update it on GitHub — no manual
+       "hard refresh" needed. You don't need to edit this block.
+       ============================================================ -->
+  <script>
+    (function () {
+      var v = Date.now(); // changes every page load, forces a fresh fetch
+      var dataScript = document.createElement("script");
+      dataScript.src = "data.js?v=" + v;
+      dataScript.onload = function () {
+        var appScript = document.createElement("script");
+        appScript.src = "script.js?v=" + v;
+        document.body.appendChild(appScript);
+      };
+      document.body.appendChild(dataScript);
+    })();
+  </script>
 </body>
 </html>
