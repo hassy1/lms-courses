@@ -214,8 +214,13 @@
   // ============ Initial load ============
   // Priority: ?id= in the URL, then a previously saved login, then the
   // empty login screen.
+  // NOTE: this file is now loaded dynamically by index.html (for cache
+  // -busting), which means the page has usually already finished
+  // parsing by the time this code runs — so "DOMContentLoaded" may
+  // never fire again. Run immediately in that case, and only wait for
+  // the event if the document is still loading.
 
-  document.addEventListener("DOMContentLoaded", function () {
+  function initApp() {
     const idFromUrl = getIdFromUrl();
     const idFromStorage = localStorage.getItem(STORAGE_KEY);
     const idToTry = idFromUrl || idFromStorage;
@@ -226,5 +231,11 @@
     } else {
       showLogin(null);
     }
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initApp);
+  } else {
+    initApp();
+  }
 })();
