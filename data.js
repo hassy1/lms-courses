@@ -56,8 +56,8 @@ const semesterLabel = "Spring 2026";
 
 const students = [
   {
-    id: "BSCS-2022-001",
-    name: "Hassan Nasir"
+    id: "1234",
+    name: "Ayesha"
     // no courseCodes → sees every course below
   }
 
