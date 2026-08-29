@@ -17,8 +17,6 @@
   const welcomeLine = document.getElementById("welcomeLine");
   const logoutBtn = document.getElementById("logoutBtn");
 
-  const STORAGE_KEY = "lms-student-id";
-
   if (typeof semesterLabel !== "undefined") {
     semesterLabelEl.textContent = semesterLabel;
   }
@@ -158,7 +156,10 @@
     renderCourses(coursesForStudent(student));
   }
 
-  /** Attempt login with the given id: update URL + storage on success. */
+  /** Attempt login with the given id. Does NOT write the id into the
+      address bar or remember it — every fresh reload of the plain
+      site URL always starts at the login screen and needs the id
+      typed again. */
   function attemptLogin(id) {
     const trimmed = (id || "").trim();
     if (!trimmed) {
@@ -167,18 +168,10 @@
     }
     const student = findStudent(trimmed);
     if (student) {
-      localStorage.setItem(STORAGE_KEY, student.id);
-      updateUrl(student.id);
       showCoursesFor(student);
     } else {
       showLogin("Student ID not found.");
     }
-  }
-
-  function updateUrl(id) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("id", id);
-    window.history.replaceState({}, "", url);
   }
 
   function clearUrlId() {
@@ -205,15 +198,16 @@
   });
 
   logoutBtn.addEventListener("click", function () {
-    localStorage.removeItem(STORAGE_KEY);
     clearUrlId();
     loginInput.value = "";
     showLogin(null);
   });
 
   // ============ Initial load ============
-  // Priority: ?id= in the URL, then a previously saved login, then the
-  // empty login screen.
+  // Only auto-shows a result when the URL itself contains ?id=...
+  // (an intentional shared link). Otherwise it always starts at the
+  // login screen — reloading the plain site URL never remembers a
+  // previous login.
   // NOTE: this file is now loaded dynamically by index.html (for cache
   // -busting), which means the page has usually already finished
   // parsing by the time this code runs — so "DOMContentLoaded" may
@@ -222,12 +216,11 @@
 
   function initApp() {
     const idFromUrl = getIdFromUrl();
-    const idFromStorage = localStorage.getItem(STORAGE_KEY);
-    const idToTry = idFromUrl || idFromStorage;
 
-    if (idToTry) {
-      loginInput.value = idToTry;
-      attemptLogin(idToTry);
+    if (idFromUrl) {
+      loginInput.value = idFromUrl;
+      attemptLogin(idFromUrl);
+      clearUrlId(); // so a later reload of this tab asks for the id again
     } else {
       showLogin(null);
     }
