@@ -49,15 +49,38 @@ const semesterLabel = "Spring 2026";
       field out entirely, the student sees every course in the
       `courses` list below.
 
-   PRIVACY NOTE: this file is public once deployed on GitHub
-   Pages — do not put CNIC numbers, passwords, or other private
-   details in student records, just a name and roll number.
+/* ============================================================
+   STUDENTS — who is allowed to log in with a roll number + password
+   ============================================================
+   HOW TO ADD A STUDENT
+   -------------------------
+   1. Copy one of the objects below and paste it as a new entry.
+   2. Set "id" to the roll number they'll type in (matching is
+      case-insensitive: "bscs-2022-001" works the same as
+      "BSCS-2022-001").
+   3. Set "password" to whatever they'll type in the password box
+      (this IS case-sensitive, exact match only).
+   4. Set "name" to how their name should be greeted.
+   5. OPTIONAL — "courseCodes": if you want this student to see
+      only some of the courses, list their course codes here,
+      e.g. courseCodes: ["CS101", "ENG101"]. Leave it out entirely
+      to show every course in the `courses` list below.
+
+   ⚠️ IMPORTANT — THIS IS NOT REAL SECURITY
+   This is a static site with no server or database, so this file
+   is 100% public once deployed — anyone can open data.js directly
+   (or just "View Source") and read every password in plain text.
+   Treat this as a simple two-field access gate for a demo/personal
+   project, NOT as protection for anything actually sensitive. Do
+   not reuse a real password you use elsewhere, and don't put CNIC
+   numbers or other private details in student records.
    ============================================================ */
 
 const students = [
   {
-    id: "Ayesha@31",
-    name: "Ayesha"
+    id: "BSCS-2022-001",
+    password: "spring2026",
+    name: "Hassan Nasir"
     // no courseCodes → sees every course below
   }
 
@@ -66,6 +89,7 @@ const students = [
 
   {
     id: "BSCS-2022-002",
+    password: "example123",
     name: "Example Student",
     courseCodes: ["CS101", "ENG101"] // sees only these two courses
   }
