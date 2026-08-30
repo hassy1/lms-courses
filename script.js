@@ -12,6 +12,7 @@
   const loginScreen = document.getElementById("loginScreen");
   const coursesPage = document.getElementById("coursesPage");
   const loginInput = document.getElementById("loginInput");
+  const passwordInput = document.getElementById("passwordInput");
   const loginBtn = document.getElementById("loginBtn");
   const loginMessage = document.getElementById("loginMessage");
   const welcomeLine = document.getElementById("welcomeLine");
@@ -171,6 +172,7 @@
 
   function showCoursesFor(student) {
     currentStudent = student;
+    clearLoginMessage();
     loginScreen.hidden = true;
     coursesPage.hidden = false;
     logoutBtn.hidden = false;
@@ -370,21 +372,26 @@
     });
   }
 
-  /** Attempt login with the given id. Does NOT write the id into the
-      address bar or remember it — every fresh reload of the plain
-      site URL always starts at the login screen and needs the id
-      typed again. */
-  function attemptLogin(id) {
-    const trimmed = (id || "").trim();
-    if (!trimmed) {
+  /** Attempt login with the given id + password. Does NOT write the
+      id into the address bar or remember it — every fresh reload of
+      the plain site URL always starts at the login screen and needs
+      both fields filled in again. */
+  function attemptLogin(id, password) {
+    const trimmedId = (id || "").trim();
+    const enteredPassword = password || "";
+
+    if (!trimmedId) {
       showLogin(null);
       return;
     }
-    const student = findStudent(trimmed);
-    if (student) {
+
+    const student = findStudent(trimmedId);
+    // Generic message on purpose — doesn't reveal whether the roll
+    // number or the password was the wrong part.
+    if (student && student.password === enteredPassword) {
       showCoursesFor(student);
     } else {
-      showLogin("Student ID not found.");
+      showLogin("Invalid Roll Number or Password.");
     }
   }
 
@@ -402,18 +409,25 @@
   // ============ Event wiring ============
 
   loginBtn.addEventListener("click", function () {
-    attemptLogin(loginInput.value);
+    attemptLogin(loginInput.value, passwordInput.value);
   });
 
   loginInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-      attemptLogin(loginInput.value);
+      passwordInput.focus();
+    }
+  });
+
+  passwordInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      attemptLogin(loginInput.value, passwordInput.value);
     }
   });
 
   logoutBtn.addEventListener("click", function () {
     clearUrlId();
     loginInput.value = "";
+    passwordInput.value = "";
     showLogin(null);
   });
 
@@ -453,9 +467,13 @@
     const idFromUrl = getIdFromUrl();
 
     if (idFromUrl) {
+      // A shared link can pre-fill the roll number, but can never
+      // auto-login by itself now — the password still has to be
+      // typed in, so this just saves a bit of typing.
       loginInput.value = idFromUrl;
-      attemptLogin(idFromUrl);
-      clearUrlId(); // so a later reload of this tab asks for the id again
+      showLogin(null);
+      clearUrlId();
+      passwordInput.focus();
     } else {
       showLogin(null);
     }
