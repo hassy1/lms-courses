@@ -422,3 +422,240 @@ body {
     background: linear-gradient(180deg, #f3f2f8 0%, #ece9f5 100%);
   }
 }
+
+/* ============ Nav Drawer (⋮ menu) ============ */
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 20, 0.45);
+  z-index: 19;
+}
+
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85%;
+  max-width: 320px;
+  background: var(--topbar-bg);
+  color: #fff;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 18px 0 0;
+}
+
+.nav-close {
+  align-self: flex-end;
+  margin: 0 16px 8px 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.nav-close:focus-visible {
+  outline: 2px solid #b78bff;
+  outline-offset: 2px;
+}
+
+.nav-drawer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.88);
+  padding: 13px 20px;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-item svg {
+  flex: 0 0 auto;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-weight: 600;
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid #b78bff;
+  outline-offset: -2px;
+}
+
+.nav-footer {
+  padding: 18px 20px 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-footer-title {
+  margin: 0 0 2px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.nav-footer-sub {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #8ee6b0;
+}
+
+/* ============ Grade Book Page ============ */
+
+.gradebook-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+}
+
+.gradebook-tab {
+  flex: 0 0 auto;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.gradebook-tab:hover {
+  border-color: var(--grad-mid);
+  color: var(--grad-mid);
+}
+
+.gradebook-tab.active {
+  background: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-mid) 55%, var(--grad-end) 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+.gradebook-content {
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.gradebook-content h2 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.gradebook-table-scroll {
+  overflow-x: auto;
+}
+
+.gradebook-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+  font-size: 0.85rem;
+}
+
+.gradebook-table thead th {
+  background: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-mid) 55%, var(--grad-end) 100%);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.gradebook-table tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.gradebook-table tbody tr:nth-child(even) {
+  background: #f7f6fc;
+}
+
+.gradebook-table td.numeric,
+.gradebook-table th.numeric {
+  text-align: right;
+}
+
+.gradebook-placeholder {
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+/* ============ Lecture Schedule Page ============ */
+
+.lecture-schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lecture-schedule-item {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.lecture-schedule-main p {
+  margin: 0;
+}
+
+.lecture-schedule-code-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.lecture-schedule-instructor {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.lecture-schedule-hours {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--grad-mid);
+  background: var(--pill-bg);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
