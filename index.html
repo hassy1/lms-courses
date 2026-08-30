@@ -47,17 +47,27 @@
         </svg>
       </div>
       <h1>Student Login</h1>
-      <p class="login-subtext">Enter your ID / Roll Number to view your courses.</p>
+      <p class="login-subtext">Enter your Roll Number and Password to view your courses.</p>
 
-      <label for="loginInput" class="login-label">ID / Roll Number</label>
+      <label for="loginInput" class="login-label">Roll Number</label>
       <input
         type="text"
         id="loginInput"
-        placeholder="e.g. BBA-2026"
+        placeholder="e.g. BSCS-2022-001"
         autocomplete="off"
         spellcheck="false"
       >
-      <button id="loginBtn" class="login-btn" type="button">View My Result</button>
+
+      <label for="passwordInput" class="login-label">Password</label>
+      <input
+        type="password"
+        id="passwordInput"
+        placeholder="Enter your password"
+        autocomplete="off"
+        spellcheck="false"
+      >
+
+      <button id="loginBtn" class="login-btn" type="button">Login</button>
       <p id="loginMessage" class="login-message" role="status"></p>
     </div>
   </div>
