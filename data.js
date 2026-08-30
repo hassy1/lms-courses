@@ -78,9 +78,9 @@ const semesterLabel = "Spring 2026";
 
 const students = [
   {
-    id: "BSCS-2022-001",
-    password: "spring2026",
-    name: "Hassan Nasir"
+    id: "BBA-2026-001",
+    password: "Ayesha@31",
+    name: "Ayesha"
     // no courseCodes → sees every course below
   }
 
