@@ -16,6 +16,21 @@
   const loginMessage = document.getElementById("loginMessage");
   const welcomeLine = document.getElementById("welcomeLine");
   const logoutBtn = document.getElementById("logoutBtn");
+  const menuBtn = document.getElementById("menuBtn");
+  const navBackdrop = document.getElementById("navBackdrop");
+  const navOverlay = document.getElementById("navOverlay");
+  const navCloseBtn = document.getElementById("navCloseBtn");
+  const gradeBookPage = document.getElementById("gradeBookPage");
+  const gradeBookContent = document.getElementById("gradeBookContent");
+  const lectureSchedulePage = document.getElementById("lectureSchedulePage");
+  const lectureScheduleList = document.getElementById("lectureScheduleList");
+  const comingSoonPage = document.getElementById("comingSoonPage");
+  const comingSoonTitle = document.getElementById("comingSoonTitle");
+
+  // The currently logged-in student, set on successful login and
+  // used by the Grade Book / Lecture Schedule pages.
+  let currentStudent = null;
+  let activeGradeTab = "midterm";
 
   if (typeof semesterLabel !== "undefined") {
     semesterLabelEl.textContent = semesterLabel;
@@ -137,9 +152,15 @@
   }
 
   function showLogin(message) {
+    currentStudent = null;
     coursesPage.hidden = true;
+    gradeBookPage.hidden = true;
+    lectureSchedulePage.hidden = true;
+    comingSoonPage.hidden = true;
+    closeNav();
     loginScreen.hidden = false;
     logoutBtn.hidden = true;
+    menuBtn.hidden = true;
     if (message) {
       loginMessage.textContent = message;
       loginMessage.classList.add("error");
@@ -149,11 +170,204 @@
   }
 
   function showCoursesFor(student) {
+    currentStudent = student;
     loginScreen.hidden = true;
     coursesPage.hidden = false;
     logoutBtn.hidden = false;
+    menuBtn.hidden = false;
     welcomeLine.textContent = student.name ? "Welcome, " + student.name : "";
     renderCourses(coursesForStudent(student));
+    goToPage("home");
+  }
+
+  /* ============================================================
+     PAGE ROUTER
+     ============================================================
+     All of the app's pages are plain <main class="page"> elements
+     with a unique id (coursesPage, gradeBookPage, ...). goToPage()
+     hides every page and shows the one requested, and updates
+     which nav-drawer item is highlighted as "active".
+     ============================================================ */
+
+  const pageElements = {
+    home: coursesPage,
+    gradebook: gradeBookPage,
+    lectureschedule: lectureSchedulePage
+  };
+
+  /* ------------------------------------------------------------
+     HOW TO CHANGE WHAT A MENU BUTTON DOES
+     ------------------------------------------------------------
+     Every button in the ⋮ menu has a data-page="..." attribute in
+     index.html (e.g. data-page="mail"). This object maps each of
+     those values to a function that runs when it's clicked.
+
+     - To make a menu item open one of the real pages above, point
+       it at goToPage('home' | 'gradebook' | 'lectureschedule').
+     - To leave it as a placeholder, point it at
+       showComingSoon('Whatever Title').
+     - To build a brand new page for one of them later: copy one of
+       the <main class="page" hidden> blocks in index.html, give it
+       a new id, add that id to `pageElements` above, then change
+       its line below from showComingSoon(...) to
+       () => goToPage('yourNewKey').
+     ------------------------------------------------------------ */
+  const menuActions = {
+    home: function () { goToPage("home"); },
+    todo: function () { showComingSoon("To Do Calendar"); },
+    gradebook: function () { goToPage("gradebook"); },
+    accountbook: function () { showComingSoon("Account Book"); },
+    progress: function () { showComingSoon("Progress"); },
+    lectureschedule: function () { goToPage("lectureschedule"); },
+    mail: function () { showComingSoon("Mail"); },
+    notes: function () { showComingSoon("Notes"); },
+    studyscheme: function () { showComingSoon("My Study Scheme"); },
+    studiedcourses: function () { showComingSoon("My Studied Courses"); },
+    eid: function () { showComingSoon("e-ID Card"); },
+    studentservices: function () { showComingSoon("Student Services"); },
+    courseselection: function () { showComingSoon("Course Selection"); },
+    contactus: function () { showComingSoon("Contact Us"); },
+    help: function () { showComingSoon("Help"); }
+  };
+
+  function goToPage(pageKey) {
+    if (!currentStudent) return; // pages require a logged-in student
+    Object.keys(pageElements).forEach(function (key) {
+      pageElements[key].hidden = key !== pageKey;
+    });
+    comingSoonPage.hidden = true;
+
+    document.querySelectorAll(".nav-item").forEach(function (item) {
+      item.classList.toggle("active", item.dataset.page === pageKey);
+    });
+
+    if (pageKey === "gradebook") renderGradeBook();
+    if (pageKey === "lectureschedule") renderLectureSchedule();
+
+    closeNav();
+  }
+
+  function showComingSoon(title) {
+    if (!currentStudent) return;
+    Object.keys(pageElements).forEach(function (key) {
+      pageElements[key].hidden = true;
+    });
+    comingSoonPage.hidden = false;
+    comingSoonTitle.textContent = title;
+
+    document.querySelectorAll(".nav-item").forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    closeNav();
+  }
+
+  function openNav() {
+    navOverlay.hidden = false;
+    navBackdrop.hidden = false;
+  }
+
+  function closeNav() {
+    navOverlay.hidden = true;
+    navBackdrop.hidden = true;
+  }
+
+  /* ============================================================
+     GRADE BOOK PAGE
+     ============================================================ */
+
+  function courseTitleForCode(code) {
+    const match = courses.find(function (c) {
+      return String(c.code).trim().toLowerCase() === String(code).trim().toLowerCase();
+    });
+    return match ? match.code + " - " + match.title : code;
+  }
+
+  function buildGradeTable(section) {
+    if (!section || !Array.isArray(section.rows) || section.rows.length === 0) {
+      return '<p class="gradebook-placeholder">No data yet for this section.</p>';
+    }
+    const rowsHtml = section.rows
+      .map(function (row) {
+        return (
+          "<tr>" +
+          "<td>" + courseTitleForCode(row.code) + "</td>" +
+          '<td class="numeric">' + (row.marks || "—") + "</td>" +
+          '<td class="numeric">' + (row.percentage || "—") + "</td>" +
+          '<td class="numeric">' + (row.classAverage || "—") + "</td>" +
+          '<td class="numeric">' + (row.examAttendance || "—") + "</td>" +
+          "<td>" + (row.remarks || "") + "</td>" +
+          "</tr>"
+        );
+      })
+      .join("");
+
+    return (
+      "<h2>" + section.label + "</h2>" +
+      '<div class="gradebook-table-scroll">' +
+      '<table class="gradebook-table">' +
+      "<thead><tr>" +
+      "<th>Course</th>" +
+      '<th class="numeric">Marks</th>' +
+      '<th class="numeric">Percentage</th>' +
+      '<th class="numeric">Class Average Marks</th>' +
+      '<th class="numeric">Exam Attendance</th>' +
+      "<th>Remarks</th>" +
+      "</tr></thead>" +
+      "<tbody>" + rowsHtml + "</tbody>" +
+      "</table></div>"
+    );
+  }
+
+  function renderGradeBook() {
+    document.querySelectorAll(".gradebook-tab").forEach(function (tab) {
+      tab.classList.toggle("active", tab.dataset.tab === activeGradeTab);
+    });
+
+    if (typeof gradeBook === "undefined") {
+      gradeBookContent.innerHTML = '<p class="gradebook-placeholder">No grade data added yet.</p>';
+      return;
+    }
+
+    if (activeGradeTab === "midterm") {
+      gradeBookContent.innerHTML = buildGradeTable(gradeBook.midterm);
+    } else if (activeGradeTab === "final") {
+      gradeBookContent.innerHTML = buildGradeTable(gradeBook.final);
+    } else {
+      // Grading Scheme / Projected CGPA Calculator / COUM-DAC tabs
+      // are placeholders — build these out the same way as
+      // buildGradeTable() whenever you have real content for them.
+      gradeBookContent.innerHTML = '<p class="gradebook-placeholder">This section is coming soon.</p>';
+    }
+  }
+
+  /* ============================================================
+     LECTURE SCHEDULE PAGE
+     ============================================================ */
+
+  function renderLectureSchedule() {
+    const list = currentStudent ? coursesForStudent(currentStudent) : [];
+    lectureScheduleList.innerHTML = "";
+
+    if (list.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "empty-message";
+      empty.textContent = "No courses to show yet.";
+      lectureScheduleList.appendChild(empty);
+      return;
+    }
+
+    list.forEach(function (course) {
+      const item = document.createElement("div");
+      item.className = "lecture-schedule-item";
+      item.innerHTML =
+        '<div class="lecture-schedule-main">' +
+        '<p class="lecture-schedule-code-title">' + course.code + " - " + course.title + "</p>" +
+        '<p class="lecture-schedule-instructor">' + (course.instructorName || "") + "</p>" +
+        "</div>" +
+        '<span class="lecture-schedule-hours">' + creditLabel(course.creditHours) + "</span>";
+      lectureScheduleList.appendChild(item);
+    });
   }
 
   /** Attempt login with the given id. Does NOT write the id into the
@@ -201,6 +415,27 @@
     clearUrlId();
     loginInput.value = "";
     showLogin(null);
+  });
+
+  menuBtn.addEventListener("click", openNav);
+  navCloseBtn.addEventListener("click", closeNav);
+  navBackdrop.addEventListener("click", closeNav);
+
+  // One click listener on the whole drawer, reading each button's
+  // data-page attribute — this is what actually runs menuActions[...]
+  // when a menu item is clicked.
+  document.querySelectorAll(".nav-item").forEach(function (item) {
+    item.addEventListener("click", function () {
+      const key = item.dataset.page;
+      if (menuActions[key]) menuActions[key]();
+    });
+  });
+
+  document.querySelectorAll(".gradebook-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      activeGradeTab = tab.dataset.tab;
+      renderGradeBook();
+    });
   });
 
   // ============ Initial load ============
