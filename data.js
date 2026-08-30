@@ -56,8 +56,8 @@ const semesterLabel = "Spring 2026";
 
 const students = [
   {
-    id: "1234",
-    name: "Ayesha"
+    id: "BSCS-2022-001",
+    name: "Hassan Nasir"
     // no courseCodes → sees every course below
   }
 
@@ -124,3 +124,48 @@ const courses = [
     enrolledCount: 30
   }
 ];
+
+/* ============================================================
+   GRADE BOOK — Midterm & Final Term results
+   ============================================================
+   HOW TO UPDATE
+   -------------------------
+   - "code" must match a course "code" in the `courses` list
+     above (that's how the Grade Book page finds the course
+     title to display).
+   - Add/remove a row the same way as courses: copy a { ... }
+     object, paste it in the right array, edit the values.
+   - "classAverage" and "examAttendance" are plain numbers/text
+     exactly as they should be displayed (e.g. "23.98", "88.54%").
+
+   NOTE ON THE FINAL TERM DATA BELOW:
+   The final-term screenshot you sent was identical to the
+   midterm one, so real final-term marks weren't available yet.
+   The rows below are PLACEHOLDERS (all zeros) so the page and
+   table work correctly — replace the marks/percentage/etc. with
+   your actual final term results whenever you have them.
+   ============================================================ */
+
+const gradeBook = {
+  midterm: {
+    label: "Midterm Result (SPRING 2026)",
+    rows: [
+      { code: "MGT503", marks: "18.00/40", percentage: "45%", classAverage: "23.98", examAttendance: "88.54%", remarks: "" },
+      { code: "MGT211", marks: "22.00/40", percentage: "55%", classAverage: "24.87", examAttendance: "86.99%", remarks: "" },
+      { code: "ISL202", marks: "20.00/40", percentage: "50%", classAverage: "27.17", examAttendance: "81.57%", remarks: "" },
+      { code: "ENG101", marks: "16.00/40", percentage: "40%", classAverage: "24.69", examAttendance: "77.89%", remarks: "" },
+      { code: "CS101", marks: "22.87/40", percentage: "57%", classAverage: "21.89", examAttendance: "78.99%", remarks: "" }
+    ]
+  },
+  final: {
+    label: "Final Term Result (SPRING 2026)",
+    rows: [
+      // PLACEHOLDER — replace with your real final term marks.
+      { code: "MGT503", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
+      { code: "MGT211", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
+      { code: "ISL202", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
+      { code: "ENG101", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
+      { code: "CS101", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" }
+    ]
+  }
+};
