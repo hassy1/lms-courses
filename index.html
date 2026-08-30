@@ -26,9 +26,11 @@
             <path d="M9 12h11m0 0-3-3m3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <button id="menuBtn" class="icon-btn" type="button" aria-label="Menu">
+        <button id="menuBtn" class="icon-btn" type="button" aria-label="Menu" hidden>
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="6" r="1.7" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1.7" fill="currentColor"/>
+            <circle cx="12" cy="18" r="1.7" fill="currentColor"/>
           </svg>
         </button>
       </div>
@@ -60,7 +62,83 @@
     </div>
   </div>
 
-  <!-- ============ Page Content (courses) ============ -->
+  <!-- ============ Nav Drawer (opened by the ⋮ menu button) ============ -->
+  <div id="navBackdrop" class="nav-backdrop" hidden></div>
+  <div id="navOverlay" class="nav-overlay" hidden>
+    <button id="navCloseBtn" class="nav-close" type="button" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <nav class="nav-drawer" aria-label="Main menu">
+      <button class="nav-item" data-page="home" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 11 12 4l8 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" data-page="todo" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 6h4M4 12h4M4 18h4M11 6h9M11 12h9M11 18h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>To Do Calendar</span>
+      </button>
+      <button class="nav-item" data-page="gradebook" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 6.5 12 3l8 3.5-8 3.5-8-3.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7 9v6c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Grade Book</span>
+      </button>
+      <button class="nav-item" data-page="accountbook" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="6" cy="6" r="1.3" fill="currentColor"/><circle cx="6" cy="12" r="1.3" fill="currentColor"/><circle cx="6" cy="18" r="1.3" fill="currentColor"/><path d="M10 6h10M10 12h10M10 18h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Account Book</span>
+      </button>
+      <button class="nav-item" data-page="progress" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 20V10M10 20V4M16 20v-7M20.5 20H3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Progress</span>
+      </button>
+      <button class="nav-item" data-page="lectureschedule" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3v3.5M16 3v3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Lecture Schedule</span>
+      </button>
+      <button class="nav-item" data-page="mail" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3.5" y="5.5" width="17" height="13" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 7 12 12.5 19.5 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Mail</span>
+      </button>
+      <button class="nav-item" data-page="notes" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="m4.5 6.5 2 2 3-3.2M4.5 12.5l2 2 3-3.2M4.5 18.5l2 2 3-3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12.5 7h7M12.5 13h7M12.5 19h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Notes</span>
+      </button>
+      <button class="nav-item" data-page="studyscheme" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v2.5M12 18.5V21M21 12h-2.5M5.5 12H3M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M18.4 18.4l-1.8-1.8M7.4 7.4 5.6 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>My Study Scheme</span>
+      </button>
+      <button class="nav-item" data-page="studiedcourses" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="6" cy="6" r="1.6" fill="currentColor"/><circle cx="12" cy="6" r="1.6" fill="currentColor"/><circle cx="18" cy="6" r="1.6" fill="currentColor"/><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/><circle cx="6" cy="18" r="1.6" fill="currentColor"/><circle cx="12" cy="18" r="1.6" fill="currentColor"/><circle cx="18" cy="18" r="1.6" fill="currentColor"/></svg>
+        <span>My Studied Courses</span>
+      </button>
+      <button class="nav-item" data-page="eid" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3.5" y="5" width="17" height="14" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="11" r="1.8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6 15.5c.5-1.5 1.8-2.2 2.5-2.2s2 .7 2.5 2.2M14 10h4M14 13.5h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>e-ID Card</span>
+      </button>
+      <button class="nav-item" data-page="studentservices" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 9V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="4" y="9" width="16" height="10.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span>Student Services</span>
+      </button>
+      <button class="nav-item" data-page="courseselection" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17" stroke="currentColor" stroke-width="1.6"/><path d="m8 14.5 2 2 4-4.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Course Selection</span>
+      </button>
+      <button class="nav-item" data-page="contactus" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 4.5h3.2l1.3 3.6-2 1.6a12 12 0 0 0 6.8 6.8l1.6-2 3.6 1.3V19a1.5 1.5 0 0 1-1.6 1.5C11.9 20 4 12.1 3.5 6.1A1.5 1.5 0 0 1 5 4.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Contact Us</span>
+      </button>
+      <button class="nav-item" data-page="help" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.5a2.3 2.3 0 1 1 3.4 2c-.8.5-1.2 1-1.2 1.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.7" r="0.9" fill="currentColor"/></svg>
+        <span>Help</span>
+      </button>
+    </nav>
+
+    <div class="nav-footer">
+      <p class="nav-footer-title" id="navFooterTitle">University of Example</p>
+      <p class="nav-footer-sub">Demo LMS — not an official university system</p>
+    </div>
+  </div>
+
+  <!-- ============ Page Content (courses / Home) ============ -->
   <main id="coursesPage" class="page" hidden>
     <div class="page-header">
       <div class="page-header-text">
@@ -74,6 +152,52 @@
     <section id="courseList" class="course-list" aria-label="Course list">
       <!-- Cards injected by script.js -->
     </section>
+  </main>
+
+  <!-- ============ Grade Book Page ============ -->
+  <main id="gradeBookPage" class="page" hidden>
+    <div class="page-header">
+      <div class="page-header-text">
+        <h1>Grade Book</h1>
+        <p class="welcome-line" id="gradeBookSubtitle">Spring 2026 — Regular</p>
+      </div>
+    </div>
+
+    <div class="gradebook-tabs" role="tablist" aria-label="Grade Book sections">
+      <button class="gradebook-tab" data-tab="midterm" type="button">Midterm Result</button>
+      <button class="gradebook-tab" data-tab="final" type="button">Final Term Result</button>
+      <button class="gradebook-tab" data-tab="scheme" type="button">Grading Scheme</button>
+      <button class="gradebook-tab" data-tab="cgpa" type="button">Projected CGPA Calculator</button>
+      <button class="gradebook-tab" data-tab="coumdac" type="button">COUM/DAC</button>
+    </div>
+
+    <section id="gradeBookContent" class="gradebook-content" aria-label="Grade Book table">
+      <!-- Filled in by script.js -->
+    </section>
+  </main>
+
+  <!-- ============ Lecture Schedule Page ============ -->
+  <main id="lectureSchedulePage" class="page" hidden>
+    <div class="page-header">
+      <div class="page-header-text">
+        <h1>Lecture Schedule</h1>
+        <p class="welcome-line">Your enrolled courses</p>
+      </div>
+    </div>
+
+    <section id="lectureScheduleList" class="lecture-schedule-list" aria-label="Enrolled courses">
+      <!-- Filled in by script.js -->
+    </section>
+  </main>
+
+  <!-- ============ Generic "Coming Soon" Page (for menu items not yet built) ============ -->
+  <main id="comingSoonPage" class="page" hidden>
+    <div class="page-header">
+      <div class="page-header-text">
+        <h1 id="comingSoonTitle">Section</h1>
+        <p class="welcome-line">This section is coming soon.</p>
+      </div>
+    </div>
   </main>
 
   <!-- ============================================================
