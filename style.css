@@ -630,6 +630,47 @@ body {
   padding: 30px 10px;
 }
 
+.gradebook-summary {
+  margin-top: 16px;
+  background: #eaf7ee;
+  border: 1px solid #cdeed6;
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.gradebook-summary-label {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.gradebook-summary-value {
+  font-weight: 700;
+  color: var(--grad-mid);
+}
+
+.gradebook-result-pass {
+  color: #1a7f4b;
+}
+
+.gradebook-result-fail {
+  color: #b3261e;
+}
+
+.gradebook-summary-divider {
+  color: var(--border);
+}
+
+.gradebook-note {
+  margin: 10px 2px 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
 /* ============ Lecture Schedule Page ============ */
 
 .lecture-schedule-list {
