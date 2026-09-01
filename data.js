@@ -34,22 +34,6 @@
 const semesterLabel = "Spring 2026";
 
 /* ============================================================
-   STUDENTS — who is allowed to log in with an ID / roll number
-   ============================================================
-   HOW TO ADD A STUDENT
-   -------------------------
-   1. Copy one of the objects below and paste it as a new entry.
-   2. Set "id" to the roll number they will type in to log in
-      (matching is case-insensitive, so "bscs-2022-001" and
-      "BSCS-2022-001" both work).
-   3. Set "name" to how their name should be greeted.
-   4. OPTIONAL — "courseCodes": if you want this student to see
-      only some of the courses, list their course codes here,
-      e.g. courseCodes: ["CS101", "ENG101"]. If you leave this
-      field out entirely, the student sees every course in the
-      `courses` list below.
-
-/* ============================================================
    STUDENTS — who is allowed to log in with a roll number + password
    ============================================================
    HOW TO ADD A STUDENT
