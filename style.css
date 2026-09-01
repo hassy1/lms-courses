@@ -448,6 +448,14 @@ body {
   padding: 18px 0 0;
 }
 
+/* IMPORTANT: without this, the "hidden" attribute above gets
+   silently overridden by "display: flex" and the drawer would
+   always stay on screen. This forces hidden to actually hide it. */
+.nav-overlay[hidden],
+.nav-backdrop[hidden] {
+  display: none !important;
+}
+
 .nav-close {
   align-self: flex-end;
   margin: 0 16px 8px 0;
