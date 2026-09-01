@@ -285,6 +285,27 @@
     return match ? match.code + " - " + match.title : code;
   }
 
+  function buildSummaryStrip(summary) {
+    if (!summary) return "";
+    const resultClass = String(summary.result).toUpperCase() === "FAIL" ? "fail" : "pass";
+    return (
+      '<div class="gradebook-summary">' +
+      '<span class="gradebook-summary-item"><span class="gradebook-summary-label">Semester GPA:</span> ' +
+      '<span class="gradebook-summary-value">' + (summary.gpa || "—") + "</span></span>" +
+      '<span class="gradebook-summary-divider">|</span>' +
+      '<span class="gradebook-summary-item"><span class="gradebook-summary-label">Total Credit Hours:</span> ' +
+      '<span class="gradebook-summary-value">' + (summary.totalCreditHours != null ? summary.totalCreditHours : "—") + "</span></span>" +
+      '<span class="gradebook-summary-divider">|</span>' +
+      '<span class="gradebook-summary-item"><span class="gradebook-summary-label">Total Quality Points:</span> ' +
+      '<span class="gradebook-summary-value">' + (summary.totalQualityPoints || "—") + "</span></span>" +
+      '<span class="gradebook-summary-divider">|</span>' +
+      '<span class="gradebook-summary-item"><span class="gradebook-summary-label">Result:</span> ' +
+      '<span class="gradebook-summary-value gradebook-result-' + resultClass + '">' + (summary.result || "—") + "</span></span>" +
+      "</div>" +
+      (summary.note ? '<p class="gradebook-note">Note: ' + summary.note + "</p>" : "")
+    );
+  }
+
   function buildGradeTable(section) {
     if (!section || !Array.isArray(section.rows) || section.rows.length === 0) {
       return '<p class="gradebook-placeholder">No data yet for this section.</p>';
@@ -317,7 +338,8 @@
       "<th>Remarks</th>" +
       "</tr></thead>" +
       "<tbody>" + rowsHtml + "</tbody>" +
-      "</table></div>"
+      "</table></div>" +
+      buildSummaryStrip(section.summary)
     );
   }
 
