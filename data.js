@@ -166,14 +166,22 @@ const gradeBook = {
     ]
   },
   final: {
-    label: "Final Term Result (SPRING 2026)",
+    label: "Final Result (SPRING 2026)",
     rows: [
-      // PLACEHOLDER — replace with your real final term marks.
-      { code: "MGT503", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
-      { code: "MGT211", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
-      { code: "ISL202", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
-      { code: "ENG101", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" },
-      { code: "CS101", marks: "0.00/60", percentage: "0%", classAverage: "0.00", examAttendance: "0.00%", remarks: "" }
-    ]
+      { code: "MGT503", marks: "68.00/100", percentage: "68%", classAverage: "23.98", examAttendance: "88.54%", remarks: "B-" },
+      { code: "MGT211", marks: "80.00/100", percentage: "80%", classAverage: "24.87", examAttendance: "86.99%", remarks: "A-" },
+      { code: "ISL202", marks: "80.00/100", percentage: "80%", classAverage: "27.17", examAttendance: "81.57%", remarks: "A-" },
+      { code: "ENG101", marks: "68.00/100", percentage: "68%", classAverage: "24.69", examAttendance: "77.89%", remarks: "B-" },
+      { code: "CS101", marks: "80.00/100", percentage: "80%", classAverage: "21.89", examAttendance: "78.99%", remarks: "A-" }
+    ],
+    // Summary strip shown under the table. Edit these anytime your
+    // semester totals change — they're plain text, not calculated.
+    summary: {
+      gpa: "3.27 / 4.00",
+      totalCreditHours: 14,
+      totalQualityPoints: "45.80",
+      result: "PASS", // "PASS" or "FAIL"
+      note: "This is a system-generated result."
+    }
   }
 };
