@@ -103,6 +103,13 @@ body {
   justify-content: center;
 }
 
+/* Same fix as the nav drawer: "display: flex" above would otherwise
+   silently override the "hidden" attribute set by script.js, so the
+   login screen would stay visible even after a successful login. */
+.login-screen[hidden] {
+  display: none !important;
+}
+
 .login-card {
   background: var(--card-bg);
   border-radius: var(--radius-card);
